@@ -25,8 +25,8 @@ public class TaskController {
 
 	@GetMapping
 	public String list(TaskSearchForm searchForm,Model model) {
-
 		var taskList = taskService.find(searchForm.toEntity());
+		model.addAttribute("total", taskList.size());
 		model.addAttribute("taskList", taskList);
 		model.addAttribute("searchDTO", searchForm.toDTO());
 		return "tasks/list";
