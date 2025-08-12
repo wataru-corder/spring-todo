@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<section layout:fragment="content">
+		<div>
+			<a th:href="@{/tasks/creationForm}" class="btn btn-primary">作成</a>
+		</div>
+		<div class="card mt-3">
+			<div class="card-header">
+				検索
+			</div>
+			<div class="card-body">
+				<form th:action="@{/tasks}" method="get" th:object="${searchDTO}">
+					<div class="form-group">
+						<label for="summarySearch" class="form-label">概要</label>
+						<input class="form-control" id="summarySearch"  placeholder="概要" th:field="*{summary}">
+					</div>
+					<div class="form-group">
+						<div>
+							<label class="form-label">ステータス</label>
+						</div>
+						<div class="btn-group">
+							<input class="btn-check" type="checkbox" id="statusSearchTodo" name="statusList" value="未着手" th:checked="*{isChecked('未着手')}">
+							<label class="btn btn-outline-primary" for="statusSearchTodo">未着手</label>
+							<input class="btn-check"  type="checkbox" id="statusSearchDoing" name="statusList" value="着手中" th:checked="*{isChecked('着手中')}">
+							<label class="btn btn-outline-primary" for="statusSearchDoing">着手中</label>
+							<input class="btn-check"  type="checkbox" id="statusSearchDone" name="statusList" value="完了" th:checked="*{isChecked('完了')}">
+							<label class="btn btn-outline-primary" for="statusSearchDone">完了</label>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary mt-3">検索</button>
+				</form>
+			</div>
+
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>概要</th>
+					<th>ステータス</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="task : ${taskList}" th:object="${task}">
+					<td><a th:href="@{/tasks/{id}(id=*{id})}" th:text="'#' + *{id}"></a></td>
+					<td><a th:href="@{/tasks/{id}(id=*{id})}" th:text="*{summary}"></a></td>
+					<td th:text="*{status}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+</body>
+
+</html>

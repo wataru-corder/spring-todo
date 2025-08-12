@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${mode == 'CREATE'} ? 'タスク作成' : 'タスク編集'"></title>
+</head>
+
+<body>
+	<section layout:fragment="content">
+		
+		<div>
+			<form th:action="${mode == 'CREATE'} ? @{/tasks} : @{/tasks/{id}(id=${id})}"
+			 th:method="${mode == 'CREATE'} ? post : put"
+			 th:object="${taskForm}">
+				<div class="form-group">
+					<label id="inputSummary" class="form-label">概要</label>
+					<input type="text" placeholder="概要" class="form-control" th:field="*{summary}" th:errorclass="is-invalid">
+					<span th:errors="*{summary}" class="invalid-feedback"></span>
+				</div>
+				<div class="form-group">
+					<label id="inputSummary" class="form-label">詳細</label>
+					<textarea placeholder="詳細" class="form-control" th:field="*{description}"></textarea>
+				</div>
+				<div>
+				<label for="statusInput" class="form-label">ステータス</label>
+					<select id="statusInput" class="form-control" th:field="*{status}" th:errorclass="is-invalid">
+						<option value="未着手">未着手</option>
+						<option value="着手中">着手中</option>
+						<option value="完了">完了</option>
+					</select>
+					<span th:errors="*{status}" class="invalid-feedback"></span>
+				</div>
+				<div class="form-group mt-3">
+					<button type="submit" 
+					class="btn btn-primary" 
+					th:text="${mode == 'CREATE'} ? '作成' : '更新'"></button>
+					<a 
+					th:href="${mode == 'CREATE'} ? @{/tasks} : @{/tasks/{id}(id=${id})}" 
+					class="btn btn-secondary">戻る</a>
+				</div>
+			</form>
+		</div>
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+
+	<section layout:fragment="content">
+		<div>
+			<a th:href="@{/tasks/{id}/editForm(id=${task.id})}" class="btn btn-primary">編集</a>
+			<form th:action="@{/tasks/{id}(id=${id})}" th:method="delete" style="display: inline;">
+				<button class="btn btn-danger">削除</button>
+			</form>
+		</div>
+		<div th:object="${task}">
+			<h1 th:text="'#' + *{id} + ' ' + *{summary} "></h1>
+			<p th:text="*{status}"></p>
+			<p th:text="*{description}"></p>
+		</div>
+	</section>
+</body>
+
+</html>
